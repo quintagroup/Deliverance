@@ -56,6 +56,9 @@ New in this release:
       deliverance = deliverance.paster_templates:DeliveranceTemplate
       deliverance_plone = deliverance.paster_templates:PloneTemplate
 
+      [paste.app_factory]
+      proxy = deliverance.proxycommand:make_proxy
+
       [paste.filter_app_factory]
       main = deliverance.middleware:make_deliverance_middleware
 
