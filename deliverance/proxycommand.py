@@ -4,6 +4,7 @@ import sys
 import os
 import optparse
 from paste.httpserver import serve
+from paste.exceptions import errormiddleware
 from deliverance.proxy import ProxySet
 from deliverance.proxy import ProxySettings
 
@@ -141,6 +142,14 @@ def main(args=None):
                 profile=options.profile,
                 memory_profile=options.memory_profile,
                 garbage_collect=options.garbage_collect)
+
+
+def make_proxy(global_conf, rule_filename,
+               **kw):
+    settings = ProxySettings.parse_file(rule_filename)
+    app = ReloadingApp(rule_filename, settings)
+    app = errormiddleware.make_error_middleware(app, global_conf)
+    return app
 
 if __name__ == '__main__':
     main()
